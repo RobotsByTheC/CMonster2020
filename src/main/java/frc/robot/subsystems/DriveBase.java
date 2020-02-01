@@ -147,6 +147,15 @@ public class DriveBase extends SubsystemBase {
     
   }
 
+
+  public void driveForwardAutonomous(){
+    leftTalon.set(0.5);
+    rightTalon.set(0.5);
+    leftVictor.set(0.5);
+    rightVictor.set(0.5);
+
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -29,6 +31,8 @@ public class RobotContainer {
   
   public static DriveBase driveBase;
   public static LimelightBase limelightBase;
+  public static AutoShooterBase autoShooterBase;
+  public static ShooterBase shooterBase;
   
   public static MoveForward moveForward;
   public static DriveWithJoystick driveWithJoystick;
@@ -37,11 +41,18 @@ public class RobotContainer {
   public static WPI_VictorSPX rightVictor = new WPI_VictorSPX(3);
   public static WPI_TalonSRX leftTalon = new WPI_TalonSRX(4);
   public static WPI_VictorSPX leftVictor = new WPI_VictorSPX(5);
+  public static Spark shooterSpark = new Spark(0);
 
   public static Joystick rightJoystick; 
   public static Joystick leftJoystick;
   public static Joystick logitech;
 
+  public static double kMoveP;
+  public static double kMoveI;
+  public static double kMoveD;
+
+  public static Timer moverTimer;
+  public static Timer shooterTimer;
   
   
 
@@ -60,11 +71,21 @@ public class RobotContainer {
 
     driveBase = new DriveBase();
     limelightBase = new LimelightBase();
+    autoShooterBase = new AutoShooterBase();
+    shooterBase = new ShooterBase();
     moveForward = new MoveForward();
     driveWithJoystick = new DriveWithJoystick();
     CommandScheduler.getInstance().setDefaultCommand(driveBase, driveWithJoystick);
 
   
+    kMoveD = 0.05;
+    kMoveI = 0.0;
+    kMoveD = 0.0;
+
+
+    moverTimer = new Timer();
+    shooterTimer = new Timer();
+
     // Configure the button bindings
     configureButtonBindings();
     
@@ -101,7 +122,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return moveForward;
+    return Robot.autoChooser.getSelected();
     //just do moveForward for now, but eventually will be the chosen autonomous command 
 
   }

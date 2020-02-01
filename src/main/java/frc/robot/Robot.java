@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.*;
+import frc.robot.autocommands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +25,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   public static RobotContainer m_robotContainer;
+
+  public static SendableChooser<Command> autoChooser;
 
   
   
@@ -35,6 +40,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    autoChooser = new SendableChooser<Command>();
+    autoChooser.setDefaultOption("MoveForward", new TimedMoveForward(3));
+    autoChooser.addOption("MoveAndShoot", new AutoShootingGroup());
+    SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
+    
+    //TimedMoveForward needs a parameter 
   }
 
   /**
