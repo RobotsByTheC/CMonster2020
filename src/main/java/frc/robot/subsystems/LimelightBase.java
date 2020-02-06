@@ -12,9 +12,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import frc.robot.*;
 
 public class LimelightBase extends SubsystemBase {
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+  public WPI_TalonSRX rightTalon = RobotContainer.rightTalon;
+  public WPI_VictorSPX rightVictor = RobotContainer.rightVictor;
+  public WPI_TalonSRX leftTalon = RobotContainer.leftTalon;
+  public WPI_VictorSPX leftVictor = RobotContainer.leftVictor;
+
+  double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+  double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+
+  double rightMotorSpeed = 0;
+  double leftMotorSpeed = 0;
+
+  double KpAim = -0.1f;
+  
+  double min_command = 0.05f;
+
+
+  double KpDistance = 0.3f;
+
+  double current_distance = RobotContainer.driveBase.EstimateDistance();
+  double desired_distance = 10.0; //needs to be changed after testing
+   //need to tune these - not to high or else oscillation
+
+
+ 
   /**
    * Creates a new LimelightBase.
    */
@@ -25,6 +54,76 @@ public class LimelightBase extends SubsystemBase {
     
 
   }
+
+  public void AngleControl(){
+    SmartDashboard.putBoolean("LogitechButton3", RobotContainer.getLogitech().getRawButton(3));
+        
+    double heading_error = -tx;
+    double steering_adjust = 0.0f;
+
+      if (tx > 1.0f){
+        steering_adjust = KpAim * heading_error - min_command;
+      }
+
+      else if (tx < 1.0f){
+        steering_adjust = KpAim * heading_error + min_command;
+      }
+
+      leftMotorSpeed += steering_adjust;
+      rightMotorSpeed -= steering_adjust;
+
+      leftTalon.set(leftMotorSpeed); // finally assign the stored values to talons  
+      leftVictor.set(leftMotorSpeed);
+      rightTalon.set(rightMotorSpeed);
+      rightVictor.set(rightMotorSpeed);
+
+  }
+
+  public void DistanceControl(){
+
+      SmartDashboard.putBoolean("LogitechButton2", RobotContainer.getLogitech().getRawButton(2));
+        
+
+      double distance_error = desired_distance - current_distance;
+      SmartDashboard.putNumber("DistanceError", distance_error);
+      double driving_adjust = KpDistance * distance_error;
+      SmartDashboard.putNumber("DrivingAdjust", driving_adjust);
+
+      leftMotorSpeed += driving_adjust;
+      rightMotorSpeed += driving_adjust;
+
+      leftTalon.set(leftMotorSpeed); // finally assign the stored values to talons  
+      leftVictor.set(leftMotorSpeed);
+      rightTalon.set(rightMotorSpeed);
+      rightVictor.set(rightMotorSpeed);
+
+  }
+
+  public void DistanceAngle() {
+    double heading_error = -tx;
+    double distance_error = -ty;
+    double steering_adjust = 0.0f;
+
+    if (tx > 1.0)
+    {
+            steering_adjust = KpAim*heading_error - min_command;
+    }
+    else if (tx < 1.0)
+    {
+            steering_adjust = KpAim*heading_error + min_command;
+    }
+
+    double distance_adjust = KpDistance * distance_error;
+
+    leftMotorSpeed += steering_adjust + distance_adjust;
+    rightMotorSpeed -= steering_adjust + distance_adjust;
+
+    leftTalon.set(leftMotorSpeed); // finally assign the stored values to talons  
+    leftVictor.set(leftMotorSpeed);
+    rightTalon.set(rightMotorSpeed);
+    rightVictor.set(rightMotorSpeed);
+  }
+
 
   @Override
   public void periodic() {

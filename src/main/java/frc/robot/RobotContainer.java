@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -47,6 +48,10 @@ public class RobotContainer {
   public static Joystick leftJoystick;
   public static Joystick logitech;
 
+  public static JoystickButton visionAngle;
+  public static JoystickButton visionDistance;
+  public static JoystickButton visionAngleDistance;
+
   public static double kMoveP;
   public static double kMoveI;
   public static double kMoveD;
@@ -69,6 +74,20 @@ public class RobotContainer {
     leftJoystick = new Joystick(1);
     logitech = new Joystick(2);
 
+    visionAngle = new JoystickButton(logitech, 3);
+    visionDistance = new JoystickButton(logitech, 2);
+    visionAngleDistance = new JoystickButton(logitech, 9);
+
+    visionAngle.whileHeld(new VisionAngleControl());
+    visionAngle.whenReleased(new VisionControlStop());
+
+    visionDistance.whileHeld(new VisionDistanceControl());
+    visionDistance.whenReleased(new VisionControlStop());
+
+    visionAngleDistance.whileHeld(new VisionAngleDistance());
+    visionAngleDistance.whenReleased(new VisionControlStop());
+
+
     driveBase = new DriveBase();
     limelightBase = new LimelightBase();
     autoShooterBase = new AutoShooterBase();
@@ -76,6 +95,8 @@ public class RobotContainer {
     moveForward = new MoveForward();
     driveWithJoystick = new DriveWithJoystick();
     CommandScheduler.getInstance().setDefaultCommand(driveBase, driveWithJoystick);
+
+
 
   
     kMoveD = 0.05;
