@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+//@author ELLA WARNOCK
 public class ControlWheelBase extends SubsystemBase {
 
  public static WPI_TalonSRX ControlWheel = RobotContainer.controlWheel; 

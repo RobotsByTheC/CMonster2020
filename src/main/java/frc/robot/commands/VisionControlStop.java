@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
+
+//@author MARIA CRISTOFORO
 public class VisionControlStop extends CommandBase {
 
   public WPI_TalonSRX rightTalon = RobotContainer.rightTalon;

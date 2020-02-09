@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+//@author ELLA WARNOCK
 public class IntakeBase extends SubsystemBase {
 
   public static WPI_TalonSRX intakeTalon = RobotContainer.intakeTalon; 

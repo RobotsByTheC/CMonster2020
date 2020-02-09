@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
+//@author ELLA WARNOCK, XANDER EVERITT 
 public class ElevatorBase extends SubsystemBase {
 
   public static Spark ElevatorMotor = RobotContainer.elevatorSpark;

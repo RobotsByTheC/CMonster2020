@@ -14,6 +14,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+
+//@author MARIA CRISTOFORO
 public class VisionDistanceControl extends CommandBase {
 
  

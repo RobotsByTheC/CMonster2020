@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.Spark;
 
+
+//@author ELLA WARNOCK, ALEXANDER WOLF
 public class ShooterBase extends SubsystemBase {
 
 //public static WPI_TalonSRX TiltShooter = RobotContainer.tiltShooter;
