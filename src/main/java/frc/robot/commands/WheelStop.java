@@ -5,39 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.autocommands;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class TimedShooter extends CommandBase {
-
-  private double timeToRun;
-
-   private double endTime;
-
-   private Timer timer = RobotContainer.shooterTimer;
+public class WheelStop extends CommandBase {
   /**
-   * Creates a new TimedShooter.
+   * Creates a new WheelStop.
    */
-  public TimedShooter(double t) {
+  public WheelStop() {
     // Use addRequirements() here to declare subsystem dependencies.
-    timeToRun = t;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double startTime = timer.get();
-    endTime = startTime + timeToRun;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.shooterBase.ShootBallOn();
+    RobotContainer.controlWheelBase.wheelStop();
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +37,6 @@ public class TimedShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timer.get() >= endTime);
+    return true;
   }
 }

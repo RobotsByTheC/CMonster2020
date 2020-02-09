@@ -10,18 +10,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class ShooterBase extends SubsystemBase {
+public class ControlWheelBase extends SubsystemBase {
 
-//public static WPI_TalonSRX TiltShooter = RobotContainer.tiltShooter;
-public static Spark leftSpark = RobotContainer.shooterLeftSpark;
-public static Spark rightSpark = RobotContainer.shooterRightSpark;
-public static WPI_TalonSRX conveyorTalon = RobotContainer.conveyorTalon;
+ public static WPI_TalonSRX ControlWheel = RobotContainer.controlWheel; 
+ public static DoubleSolenoid ControlWheelSolenoid = RobotContainer.controlWheelSolenoid; 
   /**
-   * Creates a new ShooterBase.
+   * Creates a new ControlWheelBase.
    */
-  public ShooterBase() {
+  public ControlWheelBase() {
 
   }
 
@@ -30,25 +28,18 @@ public static WPI_TalonSRX conveyorTalon = RobotContainer.conveyorTalon;
     // This method will be called once per scheduler run
   }
 
-
-  
-
-  public void ShootBallOn(){
-    leftSpark.set(1);
-    rightSpark.set(1);
-  }
-  public void ShootBallOff(){
-    leftSpark.set(0);
-    rightSpark.set(0);
+  public void wheelStart(){
+    ControlWheel.set(0.75);
   }
 
-  public void ConveyorStart(){
-    conveyorTalon.set(1);
+  public void wheelStop(){
+    ControlWheel.set(0);
   }
-  public void ConveyorStop(){
-    conveyorTalon.set(0);
+  public void controlWheelSolenoidUp(){
+    ControlWheelSolenoid.set(DoubleSolenoid.Value.kForward);
   }
-  public void ConveyorStartDown(){
-    conveyorTalon.set(-1);
+
+  public void controlWheelSolenoidDown(){
+    ControlWheelSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 }
